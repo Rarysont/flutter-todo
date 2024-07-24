@@ -155,12 +155,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 ],
                               ),
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => HomePage(),
-                                //   ),
-                                // );
+                                onPressSign();
                               },
                             ),
                           ),
