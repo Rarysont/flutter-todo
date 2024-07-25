@@ -18,7 +18,16 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Fastask'),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Icon(
+              Icons.add_task,
+            ),
+            SizedBox(width: 10),
+            Text('Tarefas')
+          ],
+        ),
         backgroundColor: Colors.white,
       ),
       drawer: Drawer(
@@ -34,14 +43,14 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: const BoxDecoration(color: Colors.white),
-          child: ListView(
-            children: [
-              Observer(
-                builder: (_) => TextFormField(
+      body: Container(
+        decoration: const BoxDecoration(color: Colors.white),
+        child: ListView(
+          children: [
+            Observer(
+              builder: (_) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
                   onChanged: taskStore.setDescription,
                   decoration: getDecorationInput(
                       label: 'Adicionar tarefa',
@@ -52,7 +61,6 @@ class HomeScreen extends StatelessWidget {
                             id: randomUuid,
                             description: taskStore.description,
                             done: false));
-                        taskStore.setDescription('');
                       }),
                   validator: (String? value) {
                     if (value == null) {
@@ -62,59 +70,67 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
               ),
-              const SizedBox(
-                height: 8,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            const Divider(
+              color: Colors.grey,
+              height: 8,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Tarefas a fazer',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black),
               ),
-              const Text(
-                'Como estou me sentindo?',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Observer(
-                  builder: (_) => TextButton(
-                      onPressed: () {
-                        print('on press aqui');
-                        taskStore.addTask(TaskModel(
-                            id: '123', description: 'tarefa', done: false));
-                      },
-                      child: const Text('Adicionar tarefa'))),
-              Observer(
-                  builder: (_) => TextButton(
-                      onPressed: () {
-                        print(taskStore.task.length);
-                      },
-                      child: Text('TEste'))),
-              Observer(
-                builder: (_) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(taskStore.task.length, (index) {
-                    print('${index} indeeex');
-                    TaskModel task = taskStore.task[index];
+            ),
+            Observer(
+              builder: (_) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(taskStore.task.length, (index) {
+                  TaskModel task = taskStore.task[index];
 
-                    return ListTile(
-                      dense: true,
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(task.id),
-                      subtitle: Text(task.description),
-                      leading: const Icon(Icons.double_arrow),
-                      trailing: IconButton(
-                        icon: const Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                        onPressed: () {
-                          taskStore.addTask(TaskModel(
-                              id: '123', description: 'tarefa', done: false));
-                        },
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    );
-                  }),
-                ),
-              )
-            ],
-          ),
+                      child: ListTile(
+                        dense: true,
+                        title: Text(task.description),
+                        leading: IconButton(
+                          icon: Icon(task.done
+                              ? Icons.check_circle_outline
+                              : Icons.check_circle),
+                          onPressed: () {
+                            print('object');
+                          },
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            taskStore.deleteTask(task);
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            )
+          ],
         ),
       ),
     );
