@@ -12,13 +12,13 @@ mixin _$TaskStore on _TaskStore, Store {
   late final _$taskAtom = Atom(name: '_TaskStore.task', context: context);
 
   @override
-  List<TaskModel> get task {
+  ObservableList<TaskModel> get task {
     _$taskAtom.reportRead();
     return super.task;
   }
 
   @override
-  set task(List<TaskModel> value) {
+  set task(ObservableList<TaskModel> value) {
     _$taskAtom.reportWrite(value, super.task, () {
       super.task = value;
     });

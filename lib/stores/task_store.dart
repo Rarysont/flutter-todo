@@ -6,9 +6,7 @@ class TaskStore = _TaskStore with _$TaskStore;
 
 abstract class _TaskStore with Store {
   @observable
-  List<TaskModel> task = [
-    TaskModel(id: '123', description: 'Tarefa', done: false)
-  ];
+  ObservableList<TaskModel> task = ObservableList<TaskModel>();
 
   @observable
   String description = '';

@@ -32,7 +32,6 @@ class RootScreen extends StatelessWidget {
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.userChanges(),
       builder: (context, snapshot) {
-        print('${snapshot.hasData} has data');
         if (snapshot.hasData) {
           return const HomeScreen();
         } else {
