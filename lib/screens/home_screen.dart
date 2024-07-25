@@ -94,9 +94,8 @@ class HomeScreen extends StatelessWidget {
             Observer(
               builder: (_) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: List.generate(taskStore.task.length, (index) {
+                children: List.generate(taskStore.pendingTasks.length, (index) {
                   TaskModel task = taskStore.task[index];
-
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
@@ -110,9 +109,62 @@ class HomeScreen extends StatelessWidget {
                         leading: IconButton(
                           icon: Icon(task.done
                               ? Icons.check_circle_outline
-                              : Icons.check_circle),
+                              : Icons.circle_outlined),
+                          color: task.done ? Colors.green : Colors.grey,
                           onPressed: () {
-                            print('object');
+                            taskStore.changeTaskDone(
+                                index: index, newDone: !task.done);
+                          },
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            taskStore.deleteTask(task);
+                          },
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Tarefas concluidas',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black),
+              ),
+            ),
+            Observer(
+              builder: (_) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:
+                    List.generate(taskStore.completedTasks.length, (index) {
+                  TaskModel task = taskStore.task[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey, width: 1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: ListTile(
+                        dense: true,
+                        title: Text(task.description),
+                        leading: IconButton(
+                          icon: Icon(task.done
+                              ? Icons.check_circle_outline
+                              : Icons.circle_outlined),
+                          color: task.done ? Colors.green : Colors.grey,
+                          onPressed: () {
+                            taskStore.changeTaskDone(
+                                index: index, newDone: !task.done);
                           },
                         ),
                         trailing: IconButton(
