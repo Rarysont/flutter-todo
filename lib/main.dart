@@ -20,6 +20,7 @@ class TodoList extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: RootScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
