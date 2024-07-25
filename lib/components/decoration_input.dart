@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:studies/_common/colors.dart';
 
 InputDecoration getDecorationInput(
     {required String label, IconData? icon, void Function()? onPressIcon}) {
@@ -29,5 +28,5 @@ InputDecoration getDecorationInput(
           : null,
       focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: MyColors.darkBlue, width: 3)));
+          borderSide: const BorderSide(color: Colors.green, width: 3)));
 }

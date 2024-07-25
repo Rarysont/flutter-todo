@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:studies/_common/snackbar.dart';
 import 'package:studies/components/decoration_input.dart';
 import 'package:studies/models/task_model.dart';
 import 'package:studies/service/auth_service.dart';
@@ -61,6 +62,10 @@ class HomeScreen extends StatelessWidget {
                             id: randomUuid,
                             description: taskStore.description,
                             done: false));
+                        showSnackBar(
+                            context: context,
+                            text: 'Tarefa criada com sucesso',
+                            isError: false);
                       }),
                   validator: (String? value) {
                     if (value == null) {
@@ -123,6 +128,10 @@ class HomeScreen extends StatelessWidget {
                           ),
                           onPressed: () {
                             taskStore.deleteTask(task);
+                            showSnackBar(
+                                context: context,
+                                text: 'Tarefa deletada com sucesso!',
+                                isError: false);
                           },
                         ),
                       ),
