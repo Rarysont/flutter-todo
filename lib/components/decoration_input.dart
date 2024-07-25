@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:studies/_common/colors.dart';
 
-InputDecoration getDecorationInput(String label) {
+InputDecoration getDecorationInput(
+    {required String label, IconData? icon, void Function()? onPressIcon}) {
   return InputDecoration(
       hintText: label,
       fillColor: Colors.white,
@@ -17,6 +18,15 @@ InputDecoration getDecorationInput(String label) {
       enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: Colors.black)),
+      suffixIcon: icon != null
+          ? (GestureDetector(
+              onTap: onPressIcon,
+              child: Icon(
+                icon,
+                color: Colors.green,
+                textDirection: TextDirection.rtl,
+              )))
+          : null,
       focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: MyColors.darkBlue, width: 3)));

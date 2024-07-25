@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:studies/components/decoration_input.dart';
 import 'package:studies/models/task_model.dart';
 import 'package:studies/service/auth_service.dart';
 import 'package:studies/stores/task_store.dart';
+import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -11,6 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final taskStore = TaskStore();
+    final Uuid uuid = Uuid();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -37,9 +40,27 @@ class HomeScreen extends StatelessWidget {
           decoration: const BoxDecoration(color: Colors.white),
           child: ListView(
             children: [
-              const Text(
-                'Tarefas?',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              Observer(
+                builder: (_) => TextFormField(
+                  onChanged: taskStore.setDescription,
+                  decoration: getDecorationInput(
+                      label: 'Adicionar tarefa',
+                      icon: Icons.add_circle,
+                      onPressIcon: () {
+                        String randomUuid = uuid.v4();
+                        taskStore.addTask(TaskModel(
+                            id: randomUuid,
+                            description: taskStore.description,
+                            done: false));
+                        taskStore.setDescription('');
+                      }),
+                  validator: (String? value) {
+                    if (value == null) {
+                      return "A tarefa não de";
+                    }
+                    return null;
+                  },
+                ),
               ),
               const SizedBox(
                 height: 8,

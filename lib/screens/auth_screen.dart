@@ -69,7 +69,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         TextFormField(
                           controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: getDecorationInput('Email'),
+                          decoration: getDecorationInput(label: 'Email'),
                           validator: (String? value) {
                             if (value == null) {
                               return "O e-mail não pode ser vazio";
@@ -84,7 +84,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         const SizedBox(height: 8),
                         TextFormField(
                           controller: _passwordController,
-                          decoration: getDecorationInput('Senha'),
+                          decoration: getDecorationInput(label: 'Senha'),
                           validator: (String? value) {
                             if (value == null) {
                               return "A senha não pode ser vazio";
@@ -105,7 +105,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               children: [
                                 TextFormField(
                                   controller: _nameController,
-                                  decoration: getDecorationInput('Nome'),
+                                  decoration: getDecorationInput(label: 'Nome'),
                                   validator: (String? value) {
                                     if (value == null) {
                                       return "O nome não pode ser vazio";
