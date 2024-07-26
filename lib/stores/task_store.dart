@@ -33,7 +33,7 @@ abstract class _TaskStore with Store {
   void changeTaskDone({required int index, required newDone}) {
     task[index] = TaskModel(
       id: task[index].id,
-      description: description,
+      description: task[index].description,
       done: newDone,
     );
   }

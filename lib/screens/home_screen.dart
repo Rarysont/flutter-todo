@@ -8,14 +8,21 @@ import 'package:studies/service/auth_service.dart';
 import 'package:studies/stores/task_store.dart';
 import 'package:uuid/uuid.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final taskStore = TaskStore();
-    final Uuid uuid = Uuid();
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  final taskStore = TaskStore();
+  final Uuid uuid = Uuid();
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _taskController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -51,28 +58,24 @@ class HomeScreen extends StatelessWidget {
             Observer(
               builder: (_) => Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  onChanged: taskStore.setDescription,
-                  decoration: getDecorationInput(
-                      label: 'Adicionar tarefa',
-                      icon: Icons.add_circle,
-                      onPressIcon: () {
-                        String randomUuid = uuid.v4();
-                        taskStore.addTask(TaskModel(
-                            id: randomUuid,
-                            description: taskStore.description,
-                            done: false));
-                        showSnackBar(
-                            context: context,
-                            text: 'Tarefa criada com sucesso',
-                            isError: false);
-                      }),
-                  validator: (String? value) {
-                    if (value == null) {
-                      return "A tarefa não de";
-                    }
-                    return null;
-                  },
+                child: Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    controller: _taskController,
+                    onChanged: taskStore.setDescription,
+                    decoration: getDecorationInput(
+                        label: 'Adicionar tarefa',
+                        icon: Icons.add_circle,
+                        onPressIcon: () {
+                          onPressCreateTask();
+                        }),
+                    validator: (String? value) {
+                      if (taskStore.description.isEmpty) {
+                        return "A tarefa não pode ser vazia";
+                      }
+                      return null;
+                    },
+                  ),
                 ),
               ),
             ),
@@ -144,5 +147,15 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  onPressCreateTask() {
+    bool formHasValidated = _formKey.currentState!.validate();
+
+    if (formHasValidated) {
+      String randomUuid = uuid.v4();
+      taskStore.addTask(TaskModel(
+          id: randomUuid, description: taskStore.description, done: false));
+    }
   }
 }
