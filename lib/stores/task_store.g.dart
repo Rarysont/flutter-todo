@@ -9,21 +9,6 @@ part of 'task_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TaskStore on _TaskStore, Store {
-  Computed<List<TaskModel>>? _$pendingTasksComputed;
-
-  @override
-  List<TaskModel> get pendingTasks => (_$pendingTasksComputed ??=
-          Computed<List<TaskModel>>(() => super.pendingTasks,
-              name: '_TaskStore.pendingTasks'))
-      .value;
-  Computed<List<TaskModel>>? _$completedTasksComputed;
-
-  @override
-  List<TaskModel> get completedTasks => (_$completedTasksComputed ??=
-          Computed<List<TaskModel>>(() => super.completedTasks,
-              name: '_TaskStore.completedTasks'))
-      .value;
-
   late final _$taskAtom = Atom(name: '_TaskStore.task', context: context);
 
   @override
@@ -107,7 +92,7 @@ mixin _$TaskStore on _TaskStore, Store {
   }
 
   @override
-  void changeTaskDone({required int index, required bool newDone}) {
+  void changeTaskDone({required int index, required dynamic newDone}) {
     final _$actionInfo = _$_TaskStoreActionController.startAction(
         name: '_TaskStore.changeTaskDone');
     try {
@@ -133,9 +118,7 @@ mixin _$TaskStore on _TaskStore, Store {
     return '''
 task: ${task},
 description: ${description},
-done: ${done},
-pendingTasks: ${pendingTasks},
-completedTasks: ${completedTasks}
+done: ${done}
     ''';
   }
 }

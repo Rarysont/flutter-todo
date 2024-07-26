@@ -30,12 +30,10 @@ abstract class _TaskStore with Store {
   }
 
   @action
-  void changeTaskDone({required int index, required bool newDone}) {
-    final taskItem = task[index];
-
+  void changeTaskDone({required int index, required newDone}) {
     task[index] = TaskModel(
-      id: taskItem.id,
-      description: taskItem.description,
+      id: task[index].id,
+      description: description,
       done: newDone,
     );
   }
@@ -44,10 +42,4 @@ abstract class _TaskStore with Store {
   void deleteTask(TaskModel value) {
     task.remove(value);
   }
-
-  @computed
-  List<TaskModel> get pendingTasks => task.where((t) => !t.done).toList();
-
-  @computed
-  List<TaskModel> get completedTasks => task.where((t) => t.done).toList();
 }
